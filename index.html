@@ -32,20 +32,28 @@
       border-radius: 6px;
       cursor: pointer;
     }
+    textarea{
+      width: 100%;
+    }
     button:hover { background: #1e4ed8; }
-    small { color: #555; }
+    small, span { color: #555; }
+
+
   </style>
 </head>
 <body>
   <div class="card">
+    <span>Powered By Biman Pricing Team</span>
     <h1>PNR RAW → CSV Converter</h1>
-    <small>Upload .txt or paste raw PNR data. Works fully in browser (Netlify compatible).</small>
+    <small>Upload .txt or paste raw PNR data.</small>
 
     <input type="file" id="fileInput" accept=".txt,.doc,.docx" />
 
-    <textarea id="textInput" rows="10" placeholder="Or paste raw PNR text here..."></textarea>
+    <textarea id="textInput" cols="30" rows="10" placeholder="Or paste raw PNR text here..."></textarea>
 
     <button onclick="processData()">Generate CSV</button>
+
+
   </div>
 
 <script>
@@ -65,6 +73,9 @@ function processData() {
 }
 
 function parsePNR(raw) {
+
+  span.remove()
+
   let lines = raw
     .replace(/\r/g, '')
     .replace(/MD«/g, '')
@@ -129,6 +140,58 @@ function parsePNR(raw) {
   }
 
   downloadCSV(results);
+  showErrors(results);
+  resetInputs();
+}
+
+function resetInputs() {
+  document.getElementById('fileInput').value = '';
+  document.getElementById('textInput').value = '';
+}
+
+const span = document.createElement("h3");
+
+function showErrors(rows) {
+  const old = document.getElementById('errorTable');
+  if (old) old.remove();
+
+  const errors = rows.filter(r => r.Need_check === 'YES');
+  if (!errors.length) {
+    span.id = "noErrorMessege";
+    span.style.marginTop = '20px';
+    span.style.textAlign= "center";
+    span.style.color = 'red';
+    span.innerHTML = `No Error Found`;
+    console.log("inside error", span);
+     document.querySelector('.card').appendChild(span);
+    return;
+  };
+
+  const table = document.createElement('table');
+  table.id = 'errorTable';
+  table.style.width = '100%';
+  table.style.marginTop = '20px';
+  table.border = '1';
+
+  table.innerHTML = `
+    <thead>
+      <tr>
+        <th>Name</th><th>PNR</th><th>Passport</th><th>Country</th><th>RBD</th>
+      </tr>
+    </thead>
+    <tbody>
+      ${errors.map(e => `
+        <tr>
+          <td>${e.Name}</td>
+          <td>${e.PNR}</td>
+          <td>${e.Passport}</td>
+          <td>${e.Country}</td>
+          <td>${e.RBD}</td>
+        </tr>`).join('')}
+    </tbody>
+  `;
+
+  document.querySelector('.card').appendChild(table);
 }
 
 function downloadCSV(rows) {
