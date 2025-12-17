@@ -148,7 +148,6 @@
         <input type="password" id="password" placeholder="Password" />
         <button onclick="login()">Sign In</button>
       </div>
-      
     </div>
 
     <div class="card">
@@ -159,7 +158,7 @@
         >
       </div>
       <h1>PNR RAW → CSV Converter</h1>
-      
+
       <small>Upload .txt/docs or paste raw PNR data or drag and drop.</small>
 
       <input type="file" id="fileInput" accept=".txt,.doc,.docx" />
@@ -176,7 +175,12 @@
 
       <button onclick="processData()">Generate CSV</button>
 
-      <button style="display: block;" id="logoutBtn" style="display: none" onclick="logout()">
+      <button
+        style="display: block"
+        id="logoutBtn"
+        style="display: none"
+        onclick="logout()"
+      >
         Sign Out
       </button>
     </div>
@@ -319,14 +323,19 @@
                 : "";
             const combined = line + " " + nextLine;
 
+            // Extract Name (handle cases like "SHAHABULMR" with no space before MR)
             const nameMatch = combined.match(
-              /\d\.\d\s+([A-Z\/\s]+?)(MR|MRS|MS|MISS|MSTR)/i
+              /\d\.\d\s+([A-Z\/\s]+?)(?:\s*|\b)(MR|MRS|MS|MISS|MSTR)\b/i
             );
             let name = nameMatch ? nameMatch[1].trim() : "";
+
+            // If still no name found, try fallback (just take whatever is after 1.1)
             if (!name) {
               const fallbackName = combined.match(/\d\.\d\s+([A-Z\/\s]+)/i);
               name = fallbackName ? fallbackName[1].trim() : "";
             }
+
+            // Clean up trailing "MR" etc accidentally stuck
             name = name.replace(/(MR|MRS|MS|MISS|MSTR)$/i, "").trim();
 
             let passport = "",
