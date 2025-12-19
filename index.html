@@ -8,17 +8,30 @@
   </head>
   <body>
     <div id="authBar">
-      <div id="userStatus">Not signed in</div>
-      <!-- <div id="loginForm">
-        <input type="text" id="username" placeholder="Username" />
-        <input type="password" id="password" placeholder="Password" />
-        <button onclick="login()">Sign In</button>
-      </div> -->
-      <form id="loginForm">
-        <input id="username" type="text" placeholder="Username" />
-        <input id="password" type="password" placeholder="Password" />
-        <button type="submit">Login</button>
-      </form>
+      <div class="login-card">
+        <!-- <div id="userStatus">Not signed in</div> -->
+        <form id="loginForm">
+          <div class="input-group">
+            <input id="username" type="text" placeholder="Username" />
+            <!-- <small id="userHint" class="hint">Username: pricing_section</small> -->
+            <div class="tooltip" id="userHint">
+              Username: <b>pricing_section</b>
+            </div>
+          </div>
+          
+          <div class="input-group">
+
+            <input id="password" type="password" placeholder="Password" />
+            <!-- <small id="passHint" class="hint">Password: 01977772188</small> -->
+            <div class="tooltip" id="passHint">Password: <b>01977772188</b></div>
+          </div>
+            <button type="submit">Login</button>
+        </form>
+        <!-- <p class="hint">
+          Username: <b>pricing_section</b><br />
+          Password: <b>01977772188</b>
+        </p> -->
+      </div>
     </div>
 
     <div class="card">
@@ -46,14 +59,16 @@
 
       <button onclick="processData()">Generate CSV</button>
 
-      <button
-        style="display: block"
-        id="logoutBtn"
-        style="display: none"
-        onclick="logout()"
-      >
-        Sign Out
-      </button>
+      <div class="logout-button" style="text-align: center">
+        <button
+          style="display: block"
+          id="logoutBtn"
+          style="display: none"
+          onclick="logout()"
+        >
+          Sign Out
+        </button>
+      </div>
     </div>
     <script src="https://unpkg.com/mammoth/mammoth.browser.min.js"></script>
 
@@ -63,6 +78,8 @@
     <script src="/app/js/fileHandler.js"></script>
     <script src="/app/js/parser.js"></script>
     <script src="/app/js/csv.js"></script>
+    <script src="/app/js/showError.js"></script>
+    <script src="/app/js/resetInput.js"></script>
     <script src="/app/js/main.js"></script>
     <!-- 
     <script>

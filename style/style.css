@@ -1,3 +1,10 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+
 body {
     font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
     background: #f5f7fb;
@@ -68,13 +75,23 @@ span {
 }
 
 #authBar {
-    max-width: 400px;
-    margin: 0 auto 30px auto;
-    padding: 24px 60px 30px 24px;
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 8px 24px rgba(37, 99, 235, 0.15);
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+    /* full screen height */
+    display: flex;
+    justify-content: center;
+    /* horizontal center */
+    align-items: center;
+    /* vertical center */
+    background: #f5f7fb;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 360px;
+  padding: 24px;
+  border-radius: 12px;
+  background: rgb(60, 140, 165);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
 }
 
 #userStatus {
@@ -107,23 +124,81 @@ span {
     box-shadow: 0 0 5px rgba(37, 99, 235, 0.5);
 }
 
+/* .hint {
+  opacity: 0;
+  transform: translateY(-4px);
+   transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  font-size: 12px;
+  color: #666;
+  margin: 4px 0 12px;
+  pointer-events: none;
+}
+
+.hint.show {
+  opacity: 1;
+  transform: translateY(0);
+} */
+
+
+.input-group {
+  position: relative;
+  margin-bottom: 18px;
+}
+
+/* Tooltip bubble */
+.tooltip {
+  position: absolute;
+  top: 50%;
+  left: 105%;
+  transform: translateY(-50%) translateX(-6px);
+  background: #4d5661;
+  color: #fff;
+  padding: 8px 12px;
+  font-size: 12px;
+  border-radius: 6px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+}
+
+/* Arrow */
+.tooltip::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: -6px;
+  transform: translateY(-50%);
+  border-width: 6px;
+  border-style: solid;
+  border-color: transparent #1f2937 transparent transparent;
+}
+
+/* Visible state */
+.tooltip.show {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);
+}
+
+
 #loginForm button {
     width: 100%;
     padding: 12px;
     font-size: 1rem;
     font-weight: 700;
-    background-color: #2563eb;
+    background-color: #9ca811;
     /* blue-600 */
     color: white;
     border: none;
     border-radius: 8px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    margin: 9px;
+    margin-top: 20px;
 }
 
 #loginForm button:hover {
-    background-color: #1e40af;
+    background-color: #539b3d;
     /* blue-800 */
 }
 
@@ -134,7 +209,7 @@ span {
     padding: 10px 30px;
     font-size: 1rem;
     font-weight: 700;
-    background-color: #4671ce;
+    background-color: #53d3ad;
     /* red-500 */
     color: white;
     border: none;
