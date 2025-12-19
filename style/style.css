@@ -1,0 +1,150 @@
+body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #f5f7fb;
+    padding: 40px;
+}
+
+.card {
+    max-width: 600px;
+    margin: auto;
+    background: #fff;
+    padding: 24px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+h1 {
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+}
+
+input,
+button {
+    width: 100%;
+    margin-top: 12px;
+    padding: 10px;
+    font-size: 1rem;
+}
+
+button {
+    background: #2563eb;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+textarea {
+    width: 100%;
+}
+
+button:hover {
+    background: #1e4ed8;
+}
+
+small,
+span {
+    color: #555;
+}
+
+#dropZone {
+    border: 3px dashed #2563eb;
+    border-radius: 12px;
+    padding: 40px;
+    text-align: center;
+    font-size: 1rem;
+    color: #2563eb;
+    margin-bottom: 16px;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+}
+
+#dropZone.dragover {
+    background-color: #dbeafe;
+}
+
+.card {
+    display: none;
+}
+
+#authBar {
+    max-width: 400px;
+    margin: 0 auto 30px auto;
+    padding: 24px 60px 30px 24px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(37, 99, 235, 0.15);
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#userStatus {
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: #2563eb;
+    margin-bottom: 16px;
+    text-align: center;
+}
+
+#loginForm {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+#loginForm input {
+    padding: 12px 0px 12px 10px;
+    font-size: 1rem;
+    border: 2px solid #cbd5e1;
+    /* slate-300 */
+    border-radius: 8px;
+    transition: border-color 0.3s ease;
+}
+
+#loginForm input:focus {
+    outline: none;
+    border-color: #2563eb;
+    /* blue-600 */
+    box-shadow: 0 0 5px rgba(37, 99, 235, 0.5);
+}
+
+#loginForm button {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    font-weight: 700;
+    background-color: #2563eb;
+    /* blue-600 */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin: 9px;
+}
+
+#loginForm button:hover {
+    background-color: #1e40af;
+    /* blue-800 */
+}
+
+#logoutBtn {
+    display: block;
+    margin: 30px auto;
+    width: 30%;
+    padding: 10px 30px;
+    font-size: 1rem;
+    font-weight: 700;
+    background-color: #4671ce;
+    /* red-500 */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    display: none;
+    transition: background-color 0.3s ease;
+}
+
+#logoutBtn:hover {
+    background-color: #b91c1c;
+    /* red-700 */
+}

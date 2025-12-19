@@ -4,150 +4,16 @@
     <meta charset="UTF-8" />
     <title>Raw Data → CSV</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <style>
-      body {
-        font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-        background: #f5f7fb;
-        padding: 40px;
-      }
-      .card {
-        max-width: 600px;
-        margin: auto;
-        background: #fff;
-        padding: 24px;
-        border-radius: 12px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-      }
-      h1 {
-        font-size: 1.4rem;
-        margin-bottom: 10px;
-      }
-      input,
-      button {
-        width: 100%;
-        margin-top: 12px;
-        padding: 10px;
-        font-size: 1rem;
-      }
-      button {
-        background: #2563eb;
-        color: #fff;
-        border: none;
-        border-radius: 6px;
-        cursor: pointer;
-      }
-      textarea {
-        width: 100%;
-      }
-      button:hover {
-        background: #1e4ed8;
-      }
-      small,
-      span {
-        color: #555;
-      }
-      #dropZone {
-        border: 3px dashed #2563eb;
-        border-radius: 12px;
-        padding: 40px;
-        text-align: center;
-        font-size: 1rem;
-        color: #2563eb;
-        margin-bottom: 16px;
-        transition: background-color 0.3s ease;
-        cursor: pointer;
-      }
-      #dropZone.dragover {
-        background-color: #dbeafe;
-      }
-      .card {
-        display: none;
-      }
-      #authBar {
-        max-width: 400px;
-        margin: 0 auto 30px auto;
-        padding: 24px 60px 30px 24px;
-        background: #fff;
-        border-radius: 12px;
-        box-shadow: 0 8px 24px rgba(37, 99, 235, 0.15);
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-      }
-
-      #userStatus {
-        font-weight: 600;
-        font-size: 1.1rem;
-        color: #2563eb;
-        margin-bottom: 16px;
-        text-align: center;
-      }
-
-      #loginForm {
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-      }
-
-      #loginForm input {
-        padding: 12px 0px 12px 10px;
-        font-size: 1rem;
-        border: 2px solid #cbd5e1; /* slate-300 */
-        border-radius: 8px;
-        transition: border-color 0.3s ease;
-      }
-
-      #loginForm input:focus {
-        outline: none;
-        border-color: #2563eb; /* blue-600 */
-        box-shadow: 0 0 5px rgba(37, 99, 235, 0.5);
-      }
-
-      #loginForm button {
-        width: 100%;
-        padding: 12px;
-        font-size: 1rem;
-        font-weight: 700;
-        background-color: #2563eb; /* blue-600 */
-        color: white;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-        margin: 9px;
-      }
-
-      #loginForm button:hover {
-        background-color: #1e40af; /* blue-800 */
-      }
-
-      #logoutBtn {
-        display: block;
-        margin: 30px auto;
-        width: 30%;
-        padding: 10px 30px;
-        font-size: 1rem;
-        font-weight: 700;
-        background-color: #4671ce; /* red-500 */
-        color: white;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        display: none;
-        transition: background-color 0.3s ease;
-      }
-
-      #logoutBtn:hover {
-        background-color: #b91c1c; /* red-700 */
-      }
-    </style>
+    <link rel="stylesheet" href="/style/style.css" />
   </head>
   <body>
     <div id="authBar">
       <div id="userStatus">Not signed in</div>
-      <div id="loginForm">
-        <input type="text" id="username" placeholder="Username" />
-        <input type="password" id="password" placeholder="Password" />
-        <button onclick="login()">Sign In</button>
-      </div>
+      <form id="loginForm">
+        <input id="username" type="text" placeholder="Username" />
+        <input id="password" type="password" placeholder="Password" />
+        <button type="submit">Login</button>
+      </form>
     </div>
 
     <div class="card">
@@ -186,9 +52,61 @@
     </div>
     <script src="https://unpkg.com/mammoth/mammoth.browser.min.js"></script>
 
+    <script src="/app/js/auth.js"></script>
+    <script src="/app/js/inactivity.js"></script>
+    <script src="/app/js/dragDrop.js"></script>
+    <script src="/app/js/fileHandler.js"></script>
+    <script src="/app/js/parser.js"></script>
+    <script src="/app/js/csv.js"></script>
+    <script src="/app/js/main.js"></script>
+    <!-- 
     <script>
       const correctUsername = "pricing_section";
       const correctPassword = "01977772188";
+      const AUTO_LOGOUT_TIME = 5 * 60 * 1000; // 5 minutes
+      let inactivityTimer = null;
+
+      function startInactivityTimer() {
+        clearTimeout(inactivityTimer);
+
+        inactivityTimer = setTimeout(() => {
+          alert("You have been logged out due to inactivity.");
+          logout();
+        }, AUTO_LOGOUT_TIME);
+      }
+
+      function resetInactivityTimer() {
+        if (localStorage.getItem("loggedIn") === "true") {
+          startInactivityTimer();
+        }
+      }
+
+      ["click", "mousemove", "keydown", "scroll", "touchstart"].forEach(
+        (event) => {
+          document.addEventListener(event, resetInactivityTimer, true);
+        }
+      );
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const loggedIn = localStorage.getItem("loggedIn") === "true";
+        updateUser(loggedIn);
+
+        if (loggedIn) {
+          startInactivityTimer();
+        }
+      });
+
+      // function login() {
+      //   const userInput = document.getElementById("username").value.trim();
+      //   const passInput = document.getElementById("password").value.trim();
+
+      //   if (userInput === correctUsername && passInput === correctPassword) {
+      //     localStorage.setItem("loggedIn", "true");
+      //     updateUser(true);
+      //   } else {
+      //     alert("Incorrect username or password");
+      //   }
+      // }
 
       function login() {
         const userInput = document.getElementById("username").value.trim();
@@ -197,13 +115,20 @@
         if (userInput === correctUsername && passInput === correctPassword) {
           localStorage.setItem("loggedIn", "true");
           updateUser(true);
+          startInactivityTimer();
         } else {
           alert("Incorrect username or password");
         }
       }
 
+      // function logout() {
+      //   localStorage.removeItem("loggedIn");
+      //   updateUser(false);
+      // }
+
       function logout() {
         localStorage.removeItem("loggedIn");
+        clearTimeout(inactivityTimer);
         updateUser(false);
       }
 
@@ -450,6 +375,7 @@
         a.click();
         URL.revokeObjectURL(url);
       }
-    </script>
+    
+    </script> -->
   </body>
 </html>
